@@ -11,30 +11,29 @@ def generate_response(topic):
     try:
         llm = OpenAI(model_name='gpt-3.5-turbo-0613', openai_api_key=openai_api_key)
         
-        # Chat prompt structure
-        messages = [
-            {"role": "system", "content": "You are an exceptionally talented writer. Please follow the given instructions and generate a structured outline for a blog."},
-            {"role": "user", "content": f'''
-            Please generate a structured outline for a blog about {topic}. Your response should be in markdown format and follow the structure below:
+        # Chat-style prompt as a single string
+        prompt_query = f'''
+        You are an exceptionally talented writer. Given the topic "{topic}", generate an outline that includes specific main points and FAQs. Do not generate content for the Introduction, Conclusion, or Footnotes/References; instead, provide a brief guideline on what they should cover.
 
-            ### Outline for {topic}
-            1. **Introduction**: A section that sets the tone for the rest of the article. It should provide a brief overview of what an introduction should cover, capture the readers' attention, and motivate them to continue reading.
-            2. **Main Points**: 
-                - **Point 1**: Brief description.
-                    - Subpoint (if relevant): Brief description.
-                - **Point 2**: Brief description.
-                    - Subpoint (if relevant): Brief description.
-                - (Continue as needed for additional points)
-            3. **FAQ**: Contains 3-5 common questions people often ask about {topic}.
-            4. **Conclusion**: A section that wraps up the main points of the article, reinforces its main message, and provides a takeaway for the readers. Here, the writer should also offer their personal takeaway and opinion on the topic.
-            5. **Footnotes/References**: Used to cite sources, provide additional information, or clarify points made in the article. It helps in building credibility and providing readers with the opportunity to explore topics in more depth.
+        User: Please generate a structured outline for a blog about {topic}. Your response should be in markdown format and follow the structure below:
 
-            Remember, this is just an outline. Keep each point concise and avoid delving deep.
-            '''}
-        ]
+        ### Outline for {topic}
+        1. **Introduction**: A section that sets the tone for the rest of the article. It should provide a brief overview of what the article will cover, capture the readers' attention, and motivate them to continue reading.
+        2. **Main Points**: 
+            - **Point 1**: Brief description.
+                - Subpoint (if relevant): Brief description.
+            - **Point 2**: Brief description.
+                - Subpoint (if relevant): Brief description.
+            - (Continue as needed for additional points)
+        3. **FAQ**: Contains 3-5 common questions people often ask about {topic}.
+        4. **Conclusion**: A section that wraps up the main points of the article, reinforces its main message, and provides a takeaway for the readers. Here, the writer should also offer their personal takeaway and opinion on the topic.
+        5. **Footnotes/References**: Used to cite sources, provide additional information, or clarify points made in the article. It helps in building credibility and providing readers with the opportunity to explore topics in more depth.
+
+        Remember, this is just an outline. Keep each point concise and avoid delving deep.
+        '''
         
-        response = llm(messages)
-        return st.info(response['choices'][0]['message']['content'].strip())
+        response = llm(prompt_query)
+        return st.info(response)
 
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
