@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from langchain.llms import OpenAI
 from langchain import PromptTemplate
 from langchain.chat_models import ChatOpenAI
@@ -38,13 +39,25 @@ def generate_response(topic):
             response = llm(prompt_query)
             
             # Check if the response is a string (since that's what we seem to be receiving)
-            if isinstance(response, str):
+            if isinstance(response, str):                
                 # Render the content as markdown
                 st.markdown(response)
+                
+                # Create a temporary file with the content
+                with open('temp_outline.txt', 'w') as f:
+                    f.write(response)
+
+                # Let the user download the file
+                with open('temp_outline.txt', 'rb') as f:
+                    st.download_button('Download Outline', f, file_name='outline.txt', mime='text/plain')
+
+                # Optionally, remove the temporary file
+                os.remove('temp_outline.txt')
             else:
                 st.error("Unexpected response format from the model.")
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
+
 
 
 with st.form('myform'):
