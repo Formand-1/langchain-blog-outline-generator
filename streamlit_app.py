@@ -48,8 +48,7 @@ def generate_response(topic):
             st.error(f"An error occurred: {str(e)}")
 
 with st.form('myform'):
-    st.write("\n")  # Adding white space before the text input field
-    topic_text = st.text_input('Enter keyword:', '')
+    topic_text = st.text_input('Enter keyword or topic:', '')
     st.write("\n")  # Adding white space before the submit button
     submitted = st.form_submit_button('Submit')
     st.write("\n")  # Adding white space after the submit button
