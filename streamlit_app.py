@@ -42,17 +42,7 @@ def generate_response(topic):
             if isinstance(response, str):                
                 # Render the content as markdown
                 st.markdown(response)
-                
-                # Create a temporary file with the content
-                with open('temp_outline.txt', 'w') as f:
-                    f.write(response)
-
-                # Let the user download the file
-                with open('temp_outline.txt', 'rb') as f:
-                    st.download_button('Download Outline', f, file_name='outline.txt', mime='text/plain')
-
-                # Optionally, remove the temporary file
-                os.remove('temp_outline.txt')
+                outline = response               
             else:
                 st.error("Unexpected response format from the model.")
         except Exception as e:
@@ -69,3 +59,15 @@ with st.form('myform'):
         st.warning('Please enter your OpenAI API key!', icon='⚠')
     if submitted and openai_api_key.startswith('sk-'):
         generate_response(topic_text)
+
+# Place the download button outside of the form
+if outline:
+    with open('temp_outline.txt', 'w') as f:
+        f.write(outline)
+
+    st.write("\n")  # Adding white space before the download button
+    with open('temp_outline.txt', 'rb') as f:
+        st.download_button('Download Outline', f, file_name='outline.txt', mime='text/plain')
+
+    # Optionally, remove the temporary file
+    os.remove('temp_outline.txt')
