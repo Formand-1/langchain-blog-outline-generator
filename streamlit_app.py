@@ -33,7 +33,9 @@ def generate_response(topic):
         '''
         
         response = llm(prompt_query)
-        return st.info(response)
+        # Display the response and add a copy to clipboard button
+        st.info(response['choices'][0]['message']['content'].strip())
+        st.write('<a href="javascript:void(0)" onclick="navigator.clipboard.writeText(`' + response['choices'][0]['message']['content'].strip() + '`)">Copy to clipboard</a>', unsafe_allow_html=True)
 
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
