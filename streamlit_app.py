@@ -1,5 +1,4 @@
 import streamlit as st
-import clipboard
 from langchain.llms import OpenAI
 from langchain import PromptTemplate
 from langchain.chat_models import ChatOpenAI
@@ -43,9 +42,7 @@ def generate_response(topic):
                 # Render the content as markdown
                 st.markdown(response)
                 # Adding a button to copy content to clipboard
-                if st.button("Copy to Clipboard"):
-                    clipboard.copy(response)
-                    st.success('Text copied successfully!')
+                st.write('<a href="javascript:void(0)" onclick="navigator.clipboard.writeText(`' + response + '`)">Copy to clipboard</a>', unsafe_allow_html=True)
             else:
                 st.error("Unexpected response format from the model.")
         except Exception as e:
