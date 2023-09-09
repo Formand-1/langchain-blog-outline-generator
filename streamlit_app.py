@@ -9,10 +9,12 @@ openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
 def generate_response(topic):
   llm = OpenAI(model_name='text-davinci-003', openai_api_key=openai_api_key)
   # Prompt
-  template = 'Simulate an exceptionally talented technical writer and editor, generate an outline for a blog about {topic}. Given the following instructions, think step by step and produce the best possible output you can. Return the results in nicely formatted markdown please. Start with a short introduction without subpoints, then main point 1, main point 2, main point 3 and so on. Add subpoints to each main point when it make sense. Then add a FAQ with 3-5 people-also-ask qustions about {topic}, and lastly make a conclussion and footnotes.'
   template = '''
-  To achieve a concise and precise outline, please generate an outline for a blog about {topic}. Kindly follow the structure below in markdown format:
-  1. **Introduction**: A brief description of the topic without subpoints.
+  Please generate a structured outline for a blog about {topic}. Your response should be in markdown format and follow the structure below:
+
+  ### Outline for {topic}
+
+  1. **Introduction**: A section that sets the tone for the rest of the article. It should provide a brief overview of what the article will cover, capture the readers' attention, and motivate them to continue reading.
   2. **Main Points**: 
       - **Point 1**: Brief description.
           - Subpoint (if relevant): Brief description.
@@ -20,9 +22,10 @@ def generate_response(topic):
           - Subpoint (if relevant): Brief description.
       - (Continue as needed for additional points)
   3. **FAQ**: Contains 3-5 common questions people often ask about {topic}.
-  4. **Conclusion**: A brief summary.
-  5. **Footnotes** (if necessary): Short references or additional remarks.
-  Note: Focus solely on providing an outline. Avoid delving deep into each point.
+  4. **Conclusion**: A section that wraps up the main points of the article, reinforces its main message, and provides a takeaway for the readers.
+  5. **Footnotes/References**: Used to cite sources, provide additional information, or clarify points made in the article. It helps in building credibility and providing readers with the opportunity to explore topics in more depth.
+
+  Remember, this is just an outline. Keep each point concise and avoid delving deep.
   '''
 
   prompt = PromptTemplate(input_variables=['topic'], template=template)
