@@ -1,4 +1,5 @@
 import streamlit as st
+import pyperclip
 from langchain.llms import OpenAI
 from langchain import PromptTemplate
 from langchain.chat_models import ChatOpenAI
@@ -43,7 +44,8 @@ def generate_response(topic):
                 st.markdown(response)
                 # Adding a button to copy content to clipboard
                 if st.button("Copy to Clipboard"):
-                    st.clightboard.write_text(response)
+                    pyperclip.copy(response)
+                    st.success('Text copied successfully!')
             else:
                 st.error("Unexpected response format from the model.")
         except Exception as e:
