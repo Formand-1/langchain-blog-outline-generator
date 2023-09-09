@@ -14,6 +14,7 @@ openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
 
 def generate_response(topic):
     with st.spinner('Generating outline...'):
+        global outline    
         try:
             llm = OpenAI(model_name='gpt-3.5-turbo-0613', openai_api_key=openai_api_key)
             prompt_query = f'''
