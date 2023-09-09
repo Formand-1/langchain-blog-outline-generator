@@ -9,7 +9,7 @@ openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
 def generate_response(topic):
   llm = OpenAI(model_name='text-davinci-003', openai_api_key=openai_api_key)
   # Prompt
-  template = 'As an experienced data scientist and technical writer, generate an outline for a blog about {topic}.'
+  template = 'Simulate an exceptionally talented technical writer and editor, generate an outline for a blog about {topic}. Given the following instructions, think step by step and produce the best possible output you can. Return the results in nicely formatted markdown please'
   prompt = PromptTemplate(input_variables=['topic'], template=template)
   prompt_query = prompt.format(topic=topic)
   # Run LLM model and print out response
