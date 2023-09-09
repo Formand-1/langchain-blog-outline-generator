@@ -22,7 +22,7 @@ def generate_response(topic):
           - Subpoint (if relevant): Brief description.
       - (Continue as needed for additional points)
   3. **FAQ**: Contains 3-5 common questions people often ask about {topic}.
-  4. **Conclusion**: A section that wraps up the main points of the article, reinforces its main message, and provides a takeaway for the readers.
+  4. **Conclusion**: A section that wraps up the main points of the article, reinforces its main message, and provides a takeaway for the readers. Here, the writer should also offer their personal takeaway and opinion on the topic.
   5. **Footnotes/References**: Used to cite sources, provide additional information, or clarify points made in the article. It helps in building credibility and providing readers with the opportunity to explore topics in more depth.
 
   Remember, this is just an outline. Keep each point concise and avoid delving deep.
