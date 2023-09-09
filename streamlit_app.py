@@ -36,17 +36,19 @@ def generate_response(topic):
             '''
             
             response = llm(prompt_query)
-            if isinstance(response, dict) and 'choices' in response:
-                content = response['choices'][0]['message']['content'].strip()
+            
+            # Check if the response is a string (since that's what we seem to be receiving)
+            if isinstance(response, str):
                 # Render the content as markdown
-                st.markdown(content)
+                st.markdown(response)
                 # Adding a button to copy content to clipboard
                 if st.button("Copy to Clipboard"):
-                    st.clightboard.write_text(content)
+                    st.clightboard.write_text(response)
             else:
                 st.error("Unexpected response format from the model.")
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
+
 
 with st.form('myform'):
     topic_text = st.text_input('Enter keyword or topic:', '')
