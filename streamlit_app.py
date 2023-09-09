@@ -36,7 +36,9 @@ def generate_response(topic):
             '''
             
             response = llm(prompt_query)
-            if isinstance(response, dict) and 'choices' in response:
+            
+            # Check the expected structure of the response
+            if isinstance(response, dict) and 'choices' in response and isinstance(response['choices'], list) and len(response['choices']) > 0:
                 content = response['choices'][0]['message']['content'].strip()
                 st.info(content)
                 # Adding a button to copy content to clipboard
