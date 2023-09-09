@@ -36,18 +36,18 @@ def generate_response(topic):
             '''
             
             response = llm(prompt_query)
-            
-            # Check the expected structure of the response
-            if isinstance(response, dict) and 'choices' in response and isinstance(response['choices'], list) and len(response['choices']) > 0:
-                content = response['choices'][0]['message']['content'].strip()
+
+            # Check if the response is a string (since that's what we seem to be receiving)
+            if isinstance(response, str):
                 # Render the content as markdown
-                st.markdown(content)
+                st.markdown(response)
                 # Adding a button to copy content to clipboard
-                st.write('<a href="javascript:void(0)" onclick="navigator.clipboard.writeText(`' + content + '`)">Copy to clipboard</a>', unsafe_allow_html=True)
+                st.write('<a href="javascript:void(0)" onclick="navigator.clipboard.writeText(`' + response + '`)">Copy to clipboard</a>', unsafe_allow_html=True)
             else:
                 st.error("Unexpected response format from the model.")
                 # Diagnostic logging
                 st.write("Raw response from OpenAI:", response)
+
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
 
