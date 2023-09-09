@@ -41,8 +41,6 @@ def generate_response(topic):
             if isinstance(response, str):
                 # Render the content as markdown
                 st.markdown(response)
-                # Adding a button to copy content to clipboard
-                st.write('<a href="javascript:void(0)" onclick="navigator.clipboard.writeText(`' + response + '`)">Copy to clipboard</a>', unsafe_allow_html=True)
             else:
                 st.error("Unexpected response format from the model.")
         except Exception as e:
