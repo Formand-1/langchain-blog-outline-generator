@@ -7,7 +7,7 @@ st.title('🦜🔗 Blog Outline Generator App')
 openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
 
 def generate_response(topic):
-  llm = OpenAI(model_name='text-davinci-003', openai_api_key=openai_api_key)
+  llm = OpenAI(model_name='gpt-3.5-turbo-0613', openai_api_key=openai_api_key)
   # Prompt
   template = '''
   Please generate a structured outline for a blog about {topic}. Your response should be in markdown format and follow the structure below:
@@ -31,8 +31,12 @@ def generate_response(topic):
   prompt = PromptTemplate(input_variables=['topic'], template=template)
   prompt_query = prompt.format(topic=topic)
   # Run LLM model and print out response
-  response = llm(prompt_query)
-  return st.info(response)
+  messages = [
+    {"role": "system", "content": "You are an exceptionally talented writer. Generate a structured outline for a blog about the given topic in markdown format."},
+    {"role": "user", "content": f"Topic: {topic}"}
+]
+response = llm(messages)
+  return st.info(response['choices'][0]['message']['content'].strip())
 
 with st.form('myform'):
   topic_text = st.text_input('Enter keyword:', '')
