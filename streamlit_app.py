@@ -1,6 +1,7 @@
 import streamlit as st
 from langchain.llms import OpenAI
 from langchain import PromptTemplate
+from langchain.chat_models import ChatOpenAI
 
 st.set_page_config(page_title="🦜🔗 Blog Outline Generator App")
 st.title('🦜🔗 Blog Outline Generator App')
@@ -17,7 +18,7 @@ def generate_response(topic):
             Please generate a structured outline for a blog about {topic}. Your response should be in markdown format and follow the structure below:
 
             ### Outline for {topic}
-            1. **Introduction**: A section that sets the tone for the rest of the article. It should provide a brief overview of what the article will cover, capture the readers' attention, and motivate them to continue reading.
+            1. **Introduction**: A section that sets the tone for the rest of the article. It should provide a brief overview of what an introduction should cover, capture the readers' attention, and motivate them to continue reading.
             2. **Main Points**: 
                 - **Point 1**: Brief description.
                     - Subpoint (if relevant): Brief description.
