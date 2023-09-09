@@ -2,46 +2,46 @@ import streamlit as st
 from langchain.llms import OpenAI
 from langchain import PromptTemplate
 
-st.set_page_config(page_title ="🦜🔗 Blog Outline Generator App")
+st.set_page_config(page_title="🦜🔗 Blog Outline Generator App")
 st.title('🦜🔗 Blog Outline Generator App')
 openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
 
 def generate_response(topic):
-  llm = OpenAI(model_name='gpt-3.5-turbo-0613', openai_api_key=openai_api_key)
-  # Prompt
-  template = '''
-  Please generate a structured outline for a blog about {topic}. Your response should be in markdown format and follow the structure below:
+    try:
+        llm = OpenAI(model_name='gpt-3.5-turbo-0613', openai_api_key=openai_api_key)
+        
+        # Chat prompt structure
+        messages = [
+            {"role": "system", "content": "You are an exceptionally talented writer. Please follow the given instructions and generate a structured outline for a blog."},
+            {"role": "user", "content": f'''
+            Please generate a structured outline for a blog about {topic}. Your response should be in markdown format and follow the structure below:
 
-  ### Outline for {topic}
+            ### Outline for {topic}
+            1. **Introduction**: A section that sets the tone for the rest of the article. It should provide a brief overview of what the article will cover, capture the readers' attention, and motivate them to continue reading.
+            2. **Main Points**: 
+                - **Point 1**: Brief description.
+                    - Subpoint (if relevant): Brief description.
+                - **Point 2**: Brief description.
+                    - Subpoint (if relevant): Brief description.
+                - (Continue as needed for additional points)
+            3. **FAQ**: Contains 3-5 common questions people often ask about {topic}.
+            4. **Conclusion**: A section that wraps up the main points of the article, reinforces its main message, and provides a takeaway for the readers. Here, the writer should also offer their personal takeaway and opinion on the topic.
+            5. **Footnotes/References**: Used to cite sources, provide additional information, or clarify points made in the article. It helps in building credibility and providing readers with the opportunity to explore topics in more depth.
 
-  1. **Introduction**: A section that sets the tone for the rest of the article. It should provide a brief overview of what the article will cover, capture the readers' attention, and motivate them to continue reading.
-  2. **Main Points**: 
-      - **Point 1**: Brief description.
-          - Subpoint (if relevant): Brief description.
-      - **Point 2**: Brief description.
-          - Subpoint (if relevant): Brief description.
-      - (Continue as needed for additional points)
-  3. **FAQ**: Contains 3-5 common questions people often ask about {topic}.
-  4. **Conclusion**: A section that wraps up the main points of the article, reinforces its main message, and provides a takeaway for the readers. Here, the writer should also offer their personal takeaway and opinion on the topic.
-  5. **Footnotes/References**: Used to cite sources, provide additional information, or clarify points made in the article. It helps in building credibility and providing readers with the opportunity to explore topics in more depth.
+            Remember, this is just an outline. Keep each point concise and avoid delving deep.
+            '''}
+        ]
+        
+        response = llm(messages)
+        return st.info(response['choices'][0]['message']['content'].strip())
 
-  Remember, this is just an outline. Keep each point concise and avoid delving deep.
-  '''
-
-  prompt = PromptTemplate(input_variables=['topic'], template=template)
-  prompt_query = prompt.format(topic=topic)
-  # Run LLM model and print out response
-  messages = [
-    {"role": "system", "content": "You are an exceptionally talented writer. Generate a structured outline for a blog about the given topic in markdown format."},
-    {"role": "user", "content": f"Topic: {topic}"}
-]
-response = llm(messages)
-  return st.info(response['choices'][0]['message']['content'].strip())
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
 
 with st.form('myform'):
-  topic_text = st.text_input('Enter keyword:', '')
-  submitted = st.form_submit_button('Submit')
-  if not openai_api_key.startswith('sk-'):
-    st.warning('Please enter your OpenAI API key!', icon='⚠')
-  if submitted and openai_api_key.startswith('sk-'):
-    generate_response(topic_text)
+    topic_text = st.text_input('Enter keyword:', '')
+    submitted = st.form_submit_button('Submit')
+    if not openai_api_key.startswith('sk-'):
+        st.warning('Please enter your OpenAI API key!', icon='⚠')
+    if submitted and openai_api_key.startswith('sk-'):
+        generate_response(topic_text)
