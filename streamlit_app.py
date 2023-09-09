@@ -42,7 +42,7 @@ def generate_response(topic):
             if isinstance(response, str):                
                 # Render the content as markdown
                 st.markdown(response)
-                outline = response               
+                st.session_state.outline = response               
             else:
                 st.error("Unexpected response format from the model.")
         except Exception as e:
@@ -61,13 +61,5 @@ with st.form('myform'):
         generate_response(topic_text)
 
 # Place the download button outside of the form
-if outline:
-    with open('temp_outline.txt', 'w') as f:
-        f.write(outline)
-
-    st.write("\n")  # Adding white space before the download button
-    with open('temp_outline.txt', 'rb') as f:
-        st.download_button('Download Outline', f, file_name='outline.txt', mime='text/plain')
-
-    # Optionally, remove the temporary file
-    os.remove('temp_outline.txt')
+if 'outline' in st.session_state:
+    st.download_button('Download Outline', st.session_state.outline, file_name='outline.txt', mime='text/plain')
