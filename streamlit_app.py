@@ -10,12 +10,12 @@ st.title('🦜🔗 Blog Outline Generator App')
 # Adding some white space after the header
 st.write("\n\n")
 
-openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
+OPENAI_API_KEY = st.sidebar.text_input('OpenAI API Key', type='password')
 
 def generate_response(topic):
     with st.spinner('Generating outline...'):   
         try:
-            llm = OpenAI(model_name='gpt-3.5-turbo-0613', openai_api_key=openai_api_key)
+            llm = OpenAI(model_name='gpt-3.5-turbo-0613', OPENAI_API_KEY=OPENAI_API_KEY)
             prompt_query = f'''
             You are an exceptionally talented writer. Given the topic "{topic}", generate an outline that includes specific main points and FAQs. Do not generate content for the Introduction, Conclusion, or Footnotes/References; instead, provide a brief guideline on what they should cover.
             
